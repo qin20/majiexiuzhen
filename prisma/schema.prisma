@@ -9,3 +9,18 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model Post {
+  id         Int        @id @default(autoincrement())
+  title      String     @unique
+  views      Int        @default(0)
+  mdx        String     @default("")
+  createdAt  DateTime   @default(now())
+  categories Category[]
+}
+
+model Category {
+  id     Int    @id @default(autoincrement())
+  name   String @unique
+  posts  Post[]
+}

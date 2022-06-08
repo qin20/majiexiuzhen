@@ -1,10 +1,10 @@
-import { Link } from "@remix-run/react";
+import { Link } from '@remix-run/react';
+import type { LoaderFunction } from '@remix-run/node'; // or "@remix-run/cloudflare"
+import { json } from '@remix-run/node'; // or "@remix-run/cloudflare"
+import { useLoaderData } from '@remix-run/react';
 import { Header } from '~/components/layouts';
-import type { LoaderFunction } from "@remix-run/node"; // or "@remix-run/cloudflare"
-import { json } from "@remix-run/node"; // or "@remix-run/cloudflare"
-import { useLoaderData } from "@remix-run/react";
 
-import banner from "~/assets/images/banner.png";
+import banner from '~/assets/images/banner.png';
 
 type LoaderData = Awaited<ReturnType<typeof getLoaderData>>;
 
