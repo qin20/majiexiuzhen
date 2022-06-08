@@ -6,7 +6,8 @@ import {
   useLoaderData,
 } from '@remix-run/react';
 
-import { getPosts } from '~/models/post.server';
+import { getPosts } from '~/server/models/post.server';
+import { getPostUrl } from '~/client/utils/post';
 
 type LoaderData = {
   posts: Awaited<ReturnType<typeof getPosts>>;
@@ -27,9 +28,9 @@ export default function PostAdmin() {
         <nav className="col-span-4 md:col-span-1">
           <ul>
             {posts.map((post) => (
-              <li key={post.slug}>
+              <li key={post.id}>
                 <Link
-                  to={post.slug}
+                  to={getPostUrl(post)}
                   className="text-blue-600 underline"
                 >
                   {post.title}

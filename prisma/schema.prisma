@@ -13,8 +13,8 @@ datasource db {
 model Post {
   id         Int        @id @default(autoincrement())
   title      String     @unique
+  slug       String     @unique
   views      Int        @default(0)
-  mdx        String     @default("")
   createdAt  DateTime   @default(now())
   categories Category[]
 }

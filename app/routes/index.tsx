@@ -2,9 +2,9 @@ import { Link } from '@remix-run/react';
 import type { LoaderFunction } from '@remix-run/node'; // or "@remix-run/cloudflare"
 import { json } from '@remix-run/node'; // or "@remix-run/cloudflare"
 import { useLoaderData } from '@remix-run/react';
-import { Header } from '~/components/layouts';
+import { Header } from '~/client/components/layouts';
 
-import banner from '~/assets/images/banner.png';
+import banner from '~/client/assets/images/banner.png';
 
 type LoaderData = Awaited<ReturnType<typeof getLoaderData>>;
 
