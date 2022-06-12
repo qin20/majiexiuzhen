@@ -15,6 +15,9 @@ module.exports = {
       colors: {
         primary: withOpacityValue('--color-primary'),
       },
+      maxWidth: {
+        '8xl': '90rem',
+      },
     },
   },
   plugins: [],

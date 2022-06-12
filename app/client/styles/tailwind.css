@@ -3,6 +3,45 @@
 @tailwind utilities;
 @tailwind variants;
 
+:root {
+  font-family: "Times New Roman", times, "Heti Song", serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
 .theme-startup {
-    --color-primary: 14 165 233;
+    --color-primary: 34 211 238;
+}
+
+.article img {
+  max-width: 35%;
+  display: inline;
+}
+
+.article blockquote p {
+  margin: 0;
+}
+
+.post {
+  background-size: 100% 24px;
+  background-image:
+    linear-gradient(transparent 23px, #ededed 1px),
+    linear-gradient(to left, transparent 48px, #ededed, transparent 49px),
+    linear-gradient(to right, transparent 48px, rgba(255, 0, 0, 0.4), transparent 49px);
+}
+
+@layer components {
+  .article p {
+    @apply leading-6;
+  }
+
+  .article a {
+    @apply text-slate-400 mx-1 mb-1;
+  }
+
+  .toc a {
+    @apply text-slate-500;
+  }
+
+  .article a:hover {
+    @apply text-primary border-b border-dotted border-primary;
+  }
 }

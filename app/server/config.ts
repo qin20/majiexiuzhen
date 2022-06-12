@@ -9,4 +9,8 @@
  * 2. 访问`/posts/${id}`时，会自动根据id去数据库中加载文章，拿到文章
  *    title之后，根据title在此目录下加载内容并渲染
  */
-export const MDX_DIR = './app/routes/posts/_mdx';
+export const MDX_DIR = './app/routes/posts/$postId';
+export const MDX_MATEDATA = {
+  author: '码界修真',
+  a: '阿斯蒂芬',
+};

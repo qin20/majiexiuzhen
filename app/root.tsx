@@ -6,9 +6,11 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  Link,
 } from '@remix-run/react';
 
-import styles from '~/client/tailwind.css';
+import tailwindStyles from '~/client/tailwind.css';
+import heitiStyles from '~/client/styles/heti.css';
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
@@ -17,17 +19,18 @@ export const meta: MetaFunction = () => ({
 });
 
 export const links: LinksFunction = () => [
-  { rel: 'stylesheet', href: styles },
+  { rel: 'stylesheet', href: heitiStyles },
+  { rel: 'stylesheet', href: tailwindStyles },
 ];
 
 export default function App() {
   return (
-    <html lang="en">
+    <html lang="zh">
       <head>
         <Meta />
         <Links />
       </head>
-      <body className="theme-startup">
+      <body className="theme-startup text-gray-700">
         <Outlet />
         <ScrollRestoration />
         <Scripts />
