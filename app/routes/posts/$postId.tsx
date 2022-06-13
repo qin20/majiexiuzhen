@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { json, redirect } from '@remix-run/node';
 import {
   useLoaderData,
@@ -7,13 +8,13 @@ import { getPostById, postViewIncrement } from '~/server/models/post.server';
 import { getPostUrl } from '~/client/utils/post';
 import { Header, Footer } from '~/client/components/layouts';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbItemMainPage } from '~/client/components/basics';
+import isClient from '~/utils/isClient';
 
 import type { LoaderFunction } from '@remix-run/node';
 import type { Post } from '@prisma/client';
 
 import styles from '~/client/styles/post.css';
 import highLightStyles from 'highlight.js/styles/night-owl.css';
-import { useEffect } from 'react';
 
 export function links() {
   return [
@@ -70,7 +71,7 @@ const formatToc = () => {
   if (!toc || !['UL', 'OL'].includes(toc.nodeName)) return;
   const span = document.createElement('span');
   span.innerHTML =
-    `<nav class="toc relative z-10 px-2 pl-6 ml-3 py-3 border border-slate-200 rounded text-slate-600 float-right article__nav heti-skip">
+    `<nav class="toc relative z-10 px-2 pl-6 mt-0.5 ml-3 py-3 border border-slate-200 rounded text-slate-600 float-right article__nav heti-skip">
       <details open>
         <summary class="font-bold text-lg leading-5 p-0 text-slate-800">目录</summary>
         ${toc.outerHTML}
@@ -81,7 +82,7 @@ const formatToc = () => {
   parent?.insertBefore(nav, tocHeading);
   parent?.removeChild(toc);
   parent?.removeChild(tocHeading);
-  nav.style.width = `${nav.offsetWidth}px`;
+  nav.style.width = `${nav.offsetWidth + 1}px`;
   nav.addEventListener('click', fixScroll);
   return () => {
     nav.removeEventListener('click', fixScroll);
@@ -90,7 +91,9 @@ const formatToc = () => {
 
 export default function PostId() {
   useEffect(() => {
-    return formatToc();
+    if (isClient) {
+      return formatToc();
+    }
   }, []);
   const { post } = useLoaderData<LoaderData>();
   return (

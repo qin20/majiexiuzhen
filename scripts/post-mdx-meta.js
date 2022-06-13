@@ -22,9 +22,10 @@ const mdx_dir = './app/routes/posts/$postId';
         if (!post) throw new Error('未找到文章');
         const postPath = `${mdx_dir}/${post.slug}.mdx`;
         const content = fs.readFileSync(postPath, 'utf-8').replace(/---[\s\S]+---\s*/g, '');
-        const description = content.match(/\n([^#\n][\w\W]+)/)[1].trim()
-            .substring(0, 150)
-            .replace(/[\ |\~|\`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\+|\=|\||\\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/|\?]/g,'');
+        const description = content.match(/##\s+目录\s*#*(([^#][\w\W]){500})/)[1]
+            .trim()
+            .replace(/[\~|\`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\+|\=|\||\\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/|\?]/g, '')
+            .substring(0, 150);
 
         fs.writeFileSync(postPath, [
             '---',

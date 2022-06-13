@@ -3,11 +3,11 @@ import type { ActionFunction} from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
 import { useActionData, Form } from '@remix-run/react';
 import { createPost } from '~/server/models/post.server';
-import { Header } from '~/client/components/layouts';
 
 const inputClassName = 'w-full rounded border border-gray-500 px-2 py-1 text-lg';
 
 type ActionError = {
+  error?: string;
   title?: string;
   categories?: string;
 };
@@ -31,9 +31,11 @@ export const action: ActionFunction = async ({ request }) => {
     typeof categories === 'string',
     'slug must be a string'
   );
-  const post = await createPost(title, categories.split(/\s*[,，\s+]\s*/));
-  console.log(post);
-  // return redirect(`/posts/${post.id}/${post.title}`);
+  try {
+    await createPost(title, categories.split(/\s*[,，\s+]\s*/));
+  } catch (e: any) {
+    return json({ error: e.message });
+  }
   return redirect('/posts/admin');
 };
 
@@ -42,7 +44,9 @@ export default function NewPost() {
 
   return (
     <>
-      <Header />
+      {errors?.error ? (
+        <pre className="text-red-600"><small>{errors.error}</small></pre>
+      ) : null}
       <Form method="post">
         <p>
           <label>

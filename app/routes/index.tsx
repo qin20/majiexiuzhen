@@ -10,7 +10,7 @@ import banner from '~/client/assets/images/banner.png';
 type LoaderData = Awaited<ReturnType<typeof getLoaderData>>;
 
 async function getLoaderData() {
-  const posts = await getPosts({ include: { categories: true }, take: 2 });
+  const posts = await getPosts({ include: { categories: true }, take: 10 });
   return posts.map((post) => {
     return { ...post, ...getPostContent(post.slug) };
   }).filter((p) => p.content);
@@ -46,11 +46,11 @@ export default function Index() {
               return (
                 <li key={id} className="mb-4 pt-4">
                   <Link className="hover:text-primary text-lg font-bold transition-colors" to={`/posts/${id}`}>{title}</Link>
-                  <p className="text-gray-600 text-sm my-2 flex justify-between">
+                  <p className="text-gray-600 text-sm my-2">
                     <span>写于{format(new Date(createdAt), 'yyyy年MM月dd日 hh时mm分')}</span>
-                    <span>阅读：{views}</span>
+                    <span className="ml-8">阅读：{views}</span>
                   </p>
-                  <p className="text-sm text-gray-400 leading-4">{description}...</p>
+                  <p className="text-sm text-gray-400 leading-60">{description}...</p>
                 </li>
               );
             })}

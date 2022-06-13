@@ -6,7 +6,7 @@ import { prisma } from '~/server/db.server';
 import type { Prisma, Post } from '@prisma/client';
 
 export async function getPosts(options?: Prisma.PostFindManyArgs) {
-  return prisma.post.findMany(options);
+  return prisma.post.findMany({ orderBy: { createdAt: 'desc' }, ...options });
 }
 
 export async function getPostById(id: number, includeContent = false) {
@@ -33,12 +33,8 @@ function titleToSlug(title: string) {
 }
 
 export async function createPost(title: string, categories: string[] = []) {
-  if (!fs.existsSync(MDX_DIR)) {
-    fs.mkdirSync(MDX_DIR, { recursive: true });
-  }
   const slug = titleToSlug(title);
-  fs.writeFileSync(path.join(MDX_DIR, `${slug}.mdx`), '', { encoding: 'utf-8' });
-  return prisma.post.create({
+  const post = await prisma.post.create({
     include: {
       categories: true,
     },
@@ -53,6 +49,11 @@ export async function createPost(title: string, categories: string[] = []) {
       }
     }
   });
+  if (!fs.existsSync(MDX_DIR)) {
+    fs.mkdirSync(MDX_DIR, { recursive: true });
+  }
+  fs.writeFileSync(path.join(MDX_DIR, `${slug}.mdx`), '', { encoding: 'utf-8' });
+  return post;
 }
 
 export async function postViewIncrement(id: Post['id']) {
@@ -73,12 +74,9 @@ export function getPostContent(slug?: Post['slug']) {
     const postPath = `${MDX_DIR}/${slug}.mdx`;
     try {
       const content = fs.readFileSync(postPath, 'utf-8').replace(/---[\s\S]+---\s*/g, '');
-      const match = content.match(/\n([^#\n][\w\W]+)/);
+      const match = content.match(/##\s+目录\s*#*(([\w\W]){200})/);
       const description = match
-        ? match[1]
-          .trim()
-          .substring(0, 150)
-          .replace(/[\ |\~|\`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\+|\=|\||\\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/|\?]/g, '')
+        ? match[1].trim()
         : null;
       return { content, description };
     } catch(e) {

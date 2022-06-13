@@ -30,6 +30,7 @@ export default function PostAdmin() {
             <ul>
               {posts.map((post) => (
                 <li key={post.id}>
+                  {`${post.id}. `}
                   <a
                     href={getPostUrl(post)}
                     className="text-blue-600 underline"
