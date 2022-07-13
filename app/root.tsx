@@ -14,7 +14,7 @@ import heitiStyles from '~/client/styles/heti.css';
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
-  title: '码界修真',
+  title: '码界',
   viewport: 'width=device-width,initial-scale=1',
 });
 

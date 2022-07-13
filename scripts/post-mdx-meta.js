@@ -30,7 +30,7 @@ const mdx_dir = './app/routes/posts/$postId';
         fs.writeFileSync(postPath, [
             '---',
             'meta:',
-            `  author: 码界修真`,
+            `  author: 码界`,
             `  title: ${post.title}`,
             `  description: "${description || post.title}"`,
             `  categories: ${post.categories.map((c) => c.name).join(' ')}`,
